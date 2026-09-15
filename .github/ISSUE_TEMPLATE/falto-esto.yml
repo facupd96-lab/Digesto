@@ -1,0 +1,27 @@
+name: Faltó esto
+description: Una consulta que la herramienta no supo contestar.
+title: "[Consulta] "
+labels: ["falta ficha"]
+body:
+  - type: textarea
+    id: consulta
+    attributes:
+      label: La consulta, como te la hicieron
+      description: Copiala lo más textual que puedas. Cuanto menos la traduzcas a lenguaje normativo, mejor sale después la ficha.
+      placeholder: "Vino un cliente con..."
+    validations:
+      required: true
+  - type: textarea
+    id: buscaste
+    attributes:
+      label: Qué buscaste en la herramienta
+      description: Las palabras que escribiste. Sirve para saber si el problema es que falta la ficha o que no la encuentra el buscador.
+  - type: textarea
+    id: resolviste
+    attributes:
+      label: Cómo lo resolviste al final
+      description: Si lo resolviste, contá cómo y con qué artículo. Eso es casi la ficha hecha.
+  - type: input
+    id: quien
+    attributes:
+      label: Quién y de qué registro

@@ -1,0 +1,37 @@
+<header class="top">
+  <span class="plate" aria-hidden="true"><span class="eu">DNTR</span><span class="no">AA 000 AA</span></span>
+  <span>
+    <h1>Mostrador Registral</h1>
+    <span class="sub">Cómo se cobra y qué se pide en cada trámite</span>
+  </span>
+  <span class="sp"></span>
+  <button id="btn-imprimir" class="tinybtn" type="button">Imprimir esta hoja</button>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Secciones">
+    <button data-view="inicio" aria-current="true"><span class="ic">?</span><span class="fill">Preguntar</span></button>
+    <button data-view="tramites"><span class="ic">▦</span><span class="fill">Trámites</span></button>
+    <button data-view="digesto"><span class="ic">§</span><span class="fill">El Digesto</span></button>
+    <span class="low">
+      <button data-view="nosotros">Para nosotros <span class="cnt" id="cnt-notas"></span></button>
+    </span>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <section id="v-inicio" class="view"></section>
+      <section id="v-tramites" class="view" hidden></section>
+      <section id="v-tramite" class="view" hidden></section>
+      <section id="v-ficha" class="view" hidden></section>
+      <section id="v-digesto" class="view" hidden></section>
+      <section id="v-articulo" class="view" hidden></section>
+      <section id="v-nosotros" class="view" hidden></section>
+      <footer>
+        Los textos salen de los PDF oficiales del Digesto de Normas Técnico-Registrales, del Boletín Oficial y de
+        argentina.gob.ar. Esto te ahorra buscar el artículo: no reemplaza al texto oficial, ni a SURA, ni al criterio
+        del Encargado. Si algo no coincide, manda el PDF oficial.
+      </footer>
+    </div>
+  </main>
+</div>

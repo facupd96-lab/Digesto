@@ -1,0 +1,30 @@
+name: Error en un texto o en un arancel
+description: Algo que no coincide con el PDF oficial o con lo que se aplica.
+title: "[Error] "
+labels: ["error"]
+body:
+  - type: input
+    id: donde
+    attributes:
+      label: Dónde
+      description: La cita o el arancel.
+      placeholder: "Título I, Cap. VII, Secc. 1ª, art. 3º — o: Anexo I, arancel 4"
+    validations:
+      required: true
+  - type: textarea
+    id: dice
+    attributes:
+      label: Qué dice la herramienta
+    validations:
+      required: true
+  - type: textarea
+    id: deberia
+    attributes:
+      label: Qué debería decir
+      description: Si tenés la fuente (PDF oficial, disposición, circular), decila.
+    validations:
+      required: true
+  - type: input
+    id: quien
+    attributes:
+      label: Quién y de qué registro

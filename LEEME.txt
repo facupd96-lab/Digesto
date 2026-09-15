@@ -1,0 +1,85 @@
+MOSTRADOR REGISTRAL
+===================
+
+Qué es este archivo
+-------------------
+"index.html" es la herramienta entera: 85 respuestas de mostrador ya escritas
+—cómo se cobra cada trámite, qué se le pide al usuario, qué hay que sumar y qué
+hay que sacar en el sistema— más el Digesto de Normas Técnico-Registrales
+completo (Títulos I y II), la normativa superior y el texto de los 34 aranceles
+de la Resolución MJ 412/2026.
+
+Todo está adentro del archivo. No consulta internet, no manda datos a ningún
+lado, no necesita instalar nada, y no hay ninguna IA contestando: las respuestas
+están escritas de antemano y cada una muestra el artículo que la sostiene.
+
+
+Cómo se abre
+------------
+Doble clic. Se abre en el navegador (Chrome, Edge, Firefox, el que haya).
+Si pregunta con qué programa abrirlo, elegí el navegador.
+
+Anda sin internet. Lo único que baja de la red son las tipografías; si no hay
+conexión usa las del sistema y se ve igual.
+
+
+Cómo se usa
+-----------
+Tiene tres lugares, nada más:
+
+  PREGUNTAR  Escribís la consulta como te la hicieron, con tus palabras.
+             Si hay una respuesta clara, aparece ahí mismo: arriba la
+             conclusión en grande, abajo qué va y qué no va en la caja.
+             Si querés el porqué y los artículos, abrís
+             "Ver la explicación y los artículos".
+
+  TRÁMITES   Los 13 trámites que se ven en el mostrador. Entrás por el
+             trámite y ves todas las preguntas resueltas de ese trámite.
+
+  EL DIGESTO Buscador sobre el texto oficial completo, y abajo el árbol para
+             navegar por Título, Capítulo y Sección. Cada artículo tiene el
+             link a la página exacta del PDF oficial.
+
+Abajo a la izquierda hay un cuarto lugar, "Para nosotros": es interno.
+Ahí se anota lo que falta y ahí está la lista de reservas (qué parte de cada
+respuesta no está textual en la norma). No hace falta mostrárselo a nadie.
+
+
+Cómo se comparte
+----------------
+- Pendrive: copiar el archivo y listo.
+- Mail: pesa unos 3 MB, entra en cualquier casilla.
+- OneDrive / Drive: subirlo y compartir el link de descarga.
+- Red interna: dejarlo en una carpeta compartida.
+
+Cada persona que lo abre tiene su copia. No se pisan entre sí.
+
+
+Lo que queda guardado
+---------------------
+Sólo las notas de "Para nosotros", y sólo en la computadora donde se usan.
+No se guarda ninguna consulta, ninguna búsqueda ni ningún dato personal.
+Nada sale de esa computadora.
+
+
+Los importes en pesos
+---------------------
+No están y es a propósito: los tira SURA. Lo que sí está es el texto de cada
+arancel —qué incluye, qué mínimo tiene, sobre qué se calcula— que es lo que no
+te muestra el sistema cuando estás cobrando.
+
+
+Imprimir
+--------
+El botón de arriba a la derecha imprime lo que estés viendo. Sirve para dejar
+una ficha pegada en el mostrador.
+
+
+Importante
+----------
+No reemplaza a SURA ni al criterio del Encargado. Ante cualquier diferencia
+manda el PDF oficial, que está linkeado en cada artículo.
+
+Texto ordenado del Digesto del 12/08/2026. Aranceles vigentes desde el
+01/09/2026 (Resol. MJ 412/2026). Nueve respuestas usan además, como fuente
+declarada, el curso de la DNRPA del 08/09/2026.

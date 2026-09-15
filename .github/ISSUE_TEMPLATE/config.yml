@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Anotar libre en NOTAS.md
+    url: ../../blob/main/NOTAS.md
+    about: Si preferís escribir suelto en vez de completar un formulario.

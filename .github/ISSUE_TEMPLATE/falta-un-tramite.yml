@@ -1,0 +1,22 @@
+name: Falta un trámite
+description: Un trámite que debería tener ficha y no la tiene.
+title: "[Trámite] "
+labels: ["falta ficha"]
+body:
+  - type: input
+    id: tramite
+    attributes:
+      label: Qué trámite
+    validations:
+      required: true
+  - type: textarea
+    id: dudas
+    attributes:
+      label: Qué se pregunta siempre de ese trámite
+      description: Las dudas concretas que aparecen en el mostrador. Son las que va a contestar la ficha.
+    validations:
+      required: true
+  - type: input
+    id: quien
+    attributes:
+      label: Quién y de qué registro

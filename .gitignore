@@ -1,0 +1,9 @@
+﻿# nada de esto va al repositorio
+*.mov
+*.mp4
+*.pptx
+Titulo1.pdf
+Titulo2.pdf
+*_correlatividades.pdf
+Thumbs.db
+desktop.ini
