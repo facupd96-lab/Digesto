@@ -1,6 +1,6 @@
 ﻿# Estado de la herramienta
 
-Generado automaticamente por `ACTUALIZAR-GITHUB.bat` el 14/09/2026 22:47.
+Generado automaticamente por `ACTUALIZAR-GITHUB.bat` el 14/09/2026 23:01.
 
 - Respuestas embebidas en index.html: 87
 - Respuestas en fichas.json: 85

@@ -30,6 +30,10 @@ function toks(s){
   return norm(s).split(' ').filter(function(t){ return t.length>2 && !STOP[t]; });
 }
 function el(id){ return document.getElementById(id); }
+function ctx(donde){
+  return '<div class="ctx"><button type="button" data-volver>← Volver</button>' +
+    (donde ? '<span class="donde">' + donde + '</span>' : '') + '</div>';
+}
 function on(node, sel, fn){
   node.addEventListener('click', function(ev){
     var t = ev.target.closest(sel); if (t && node.contains(t)) fn(t, ev);
@@ -297,7 +301,8 @@ function tejaTramite(t){
   var g = !!GUIA[t.k];
   return '<button class="tile' + (g ? ' hot' : '') + '" data-tramite="' + esc(t.k) + '">' +
     '<span class="t">' + esc(t.n) + '</span>' +
-    '<span class="c">' + (g ? 'Guía de mostrador · ' : '') + n + (n === 1 ? ' respuesta' : ' respuestas') + '</span></button>';
+    '<span class="c">' + n + (n === 1 ? ' respuesta' : ' respuestas') + '</span>' +
+    (g ? '<span class="chip">Guía de mostrador</span>' : '') + '</button>';
 }
 
 /* -------------------------------------------------------------- TRÁMITES  */
@@ -313,12 +318,12 @@ function vTramite(k){
   var fs = FICHAS.filter(function(f){ return f.tramite === k; });
   var g  = GUIA[k];
   var rs = REGLAS.filter(function(r){ return r.tramite === k; });
-  var h  = '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>';
+  var h  = ctx('<b>' + esc(t.n) + '</b>' + (g ? ' · guía de mostrador' : ''));
 
   if (g){
-    h += guiaHTML(g, 'margin-top:14px');
+    h += guiaHTML(g, '');
   } else {
-    h += '<p class="eyebrow" style="margin-top:20px">Trámite</p>' +
+    h += '<p class="eyebrow">Trámite</p>' +
          '<h2 style="font-size:26px;margin-top:4px">' + esc(t.n) + '</h2>' +
          '<p class="lede">Todavía no armé la guía de mostrador de este trámite. Abajo están las preguntas resueltas que sí tiene.</p>';
   }
@@ -403,8 +408,8 @@ function vFicha(id){
   var f = FICHAS.find(function(x){ return x.id === id; });
   if (!f){ ir('inicio', null, true); return; }
   el('v-ficha').innerHTML =
-    '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
-    fichaHTML(f, 'margin-top:18px') +
+    ctx('<b>' + esc(TRNAME[f.tramite] || f.grupo) + '</b> · respuesta puntual') +
+    fichaHTML(f, '') +
     '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir esta ficha</button>' +
     '<button class="btn ghost" data-anotar="' + esc(f.pregunta) + '">Anotar una corrección</button></div>';
 }
@@ -455,8 +460,8 @@ function vRegla(id){
   var r = REGLAS.find(function(x){ return x.id === id; });
   if (!r){ ir('inicio', null, true); return; }
   el('v-regla').innerHTML =
-    '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
-    reglaHTML(r, 'margin-top:18px') +
+    ctx('<b>Regla</b> · cruza varios trámites') +
+    reglaHTML(r, '') +
     '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir esta regla</button>' +
     '<button class="btn ghost" data-anotar="' + esc(r.titulo) + '">Anotar una corrección</button></div>';
 }
@@ -639,8 +644,8 @@ function arbolHTML(){
 function vArticulo(id){
   var u = BYID[id];
   if (!u){ ir('digesto', null, true); return; }
-  var h = '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
-    '<div class="art" style="margin-top:20px"><div class="head"><h2>' + esc(u.cita) + '</h2>';
+  var h = ctx('<b>Texto oficial</b>') +
+    '<div class="art"><div class="head"><h2>' + esc(u.cita) + '</h2>';
   var ctx = [];
   if (u.ctit) ctx.push(u.ctit);
   if (u.stit) ctx.push(u.stit);
@@ -774,6 +779,17 @@ document.addEventListener('keydown', function(ev){
     ev.preventDefault(); ir('inicio');
   }
 });
+
+/* las barras fijas se apoyan en alturas medidas, no adivinadas */
+function medirBarras(){
+  var t = document.querySelector('.top'), r = document.querySelector('.rail');
+  if (t) document.documentElement.style.setProperty('--h-top',  Math.round(t.getBoundingClientRect().height) + 'px');
+  if (r && window.matchMedia('(max-width:900px)').matches)
+    document.documentElement.style.setProperty('--h-rail', Math.round(r.getBoundingClientRect().height) + 'px');
+}
+medirBarras();
+window.addEventListener('resize', medirBarras);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirBarras);
 
 contarNotas();
 ir('inicio', null, true);
