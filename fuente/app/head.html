@@ -199,6 +199,53 @@ details.mas .inner{padding:4px 20px 18px}
 .pill.acc{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
 footer{border-top:1px solid var(--line);margin-top:48px;padding-top:18px;font-size:13.5px;color:var(--ink-3);line-height:1.6}
 
+/* ---------- reglas maestras ---------- */
+.regla{background:var(--surface);border:2px solid var(--accent-line);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.regla .hd{padding:17px 20px 0}
+.regla .tg{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--accent)}
+.regla .tt{font-size:24px;font-weight:700;margin-top:5px;line-height:1.25}
+.regla .pg{font-size:16px;color:var(--ink-3);margin-top:5px;line-height:1.4}
+.regla .entrada{padding:0 20px;margin-top:14px;font-size:16.5px;color:var(--ink-2);line-height:1.55}
+.tw{overflow-x:auto;margin:16px 20px 4px;border:1px solid var(--line);border-radius:8px}
+table.mx{border-collapse:collapse;width:100%;font-size:15.5px;min-width:440px}
+table.mx caption{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;
+  color:var(--ink-3);padding:11px 14px 9px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+table.mx th,table.mx td{padding:10px 14px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+table.mx thead th{background:var(--surface-2);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--ink-3);font-weight:700;border-top:0}
+table.mx tbody th{font-weight:600;color:var(--ink)}
+table.mx td{color:var(--ink-2)}
+table.mx tbody tr:nth-child(even){background:color-mix(in srgb,var(--surface-2) 45%,transparent)}
+.tpie{margin:9px 20px 0;font-size:14.5px;color:var(--ink-3);line-height:1.5}
+.casos{margin:18px 20px 4px;display:flex;flex-direction:column;gap:9px}
+.caso{border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 8px 8px 0;
+  background:var(--surface);padding:12px 15px}
+.caso .cu{font-size:16.5px;font-weight:600;line-height:1.35}
+.caso .en{font-size:14px;color:var(--ink-3);margin-top:3px}
+.caso .co{font-size:15.5px;color:var(--danger);font-weight:600;margin-top:6px}
+.previo{margin:18px 20px 4px;background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:8px;padding:14px 16px}
+.previo h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ok);font-weight:700;margin:0 0 7px}
+.previo p{font-size:15.5px;color:var(--ink-2);line-height:1.5}
+.previo ul{margin:9px 0 0;padding-left:19px;display:flex;flex-direction:column;gap:5px}
+.previo li{font-size:15.5px;color:var(--ink-2);line-height:1.5}
+.gris{margin:16px 20px 0;border:1px dashed var(--line-strong);border-radius:8px;padding:13px 15px;background:var(--surface-2)}
+.gris h4{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-3);font-weight:700;margin:0 0 7px}
+.gris p{font-size:15px;color:var(--ink-2);line-height:1.55}
+.gris p+p{margin-top:9px}
+.reglahome{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--accent-soft);
+  border:1.5px solid var(--accent-line);border-radius:10px;padding:15px 17px;font-size:17px;color:var(--ink)}
+.reglahome:hover{border-color:var(--accent);background:var(--surface)}
+.reglahome .ar{color:var(--accent);font-size:19px;flex:none}
+.reglahome b{display:block;font-size:17.5px}
+.reglahome span.d{font-size:14.5px;color:var(--ink-3)}
+
+/* ---------- avisar una duda ---------- */
+.duda{margin-top:26px;border:1.5px dashed var(--line-strong);border-radius:10px;padding:18px;background:var(--surface)}
+.duda h3{font-size:17.5px;font-weight:600}
+.duda p{font-size:15px;color:var(--ink-3);margin-top:6px;line-height:1.5}
+.duda textarea{margin-top:12px}
+@media print{ .duda,.reglahome{display:none!important} table.mx{font-size:10pt} }
+
 @media print{
   .top,.rail,.ask,.tiles,.stack,.rowbtns,.res,#btn-imprimir{display:none!important}
   body{background:#fff;font-size:12pt} main{padding:0} .wrap{max-width:none}

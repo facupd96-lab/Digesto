@@ -1,0 +1,89 @@
+[
+{
+  "id": "regla-certificaciones-de-firma",
+  "tramite": "firmas",
+  "titulo": "Certificación de firmas",
+  "pregunta": "¿Cuándo se cobra una certificación de firmas? Parece que está bonificada en todo",
+  "sinonimos": ["cuando se cobra la certificacion de firmas","certificacion de firmas bonificada","cuantas firmas entran","la firma va aparte","cobro la certificacion o no","certificacion de firma arancel 8","firmas incluidas en cada arancel","validacion remota se cobra"],
+  "veredicto": "Casi todos los aranceles la traen incluida. Se cobra en cuatro casos y en ninguno más.",
+  "entrada": "Te parece que está bonificada en todo porque casi lo está: de los ocho aranceles del Anexo I, siete la incluyen. Por eso conviene dar vuelta la pregunta y aprenderse los casos en que SÍ se cobra, que son pocos.",
+  "tabla": {
+    "titulo": "Cuántas trae incluidas cada arancel",
+    "cols": ["Arancel", "Automotor", "Motos", "MAVI"],
+    "filas": [
+      ["1 · Inscripción inicial", "dos", "dos", "dos"],
+      ["2 · Transferencia", "dos", "dos", "dos"],
+      ["3 · Prenda y leasing", "dos", "dos", "dos"],
+      ["4 · Modificaciones", "una", "una", "una"],
+      ["5 · Informes, certificados y denuncias", "una", "una", "una"],
+      ["6 · Jurídico / administrativo", "una", "una", "una"],
+      ["7 · Especiales", "sólo el 7 C", "sólo el 7 C", "sólo el 7 C"],
+      ["8 · Adicionales", "ninguna: acá se cobra", "ninguna: acá se cobra", "ninguna: acá se cobra"]
+    ],
+    "pie": "En el arancel 4 entran el alta, la baja y el cambio de motor, la carrocería, el chasis, el cambio de uso, el cambio de domicilio, la rectificación de datos del titular y las dos bajas del automotor. En el 6 entran los embargos y todas las precautorias."
+  },
+  "casos": [
+    {"cuando": "Es la tercera certificación en adelante", "en": "Inscripción inicial, transferencia, prenda y leasing", "cobras": "Arancel 8 por cada una a partir de la tercera"},
+    {"cuando": "Es la segunda en adelante", "en": "Modificaciones, informes y denuncias, jurídico/administrativo, y el 7 C", "cobras": "Arancel 8 por cada una a partir de la segunda"},
+    {"cuando": "El trámite es del 7 A o del 7 B", "en": "Mora, rehabilitación para circular, incumplimiento del comerciante habitualista", "cobras": "Arancel 8 por todas: esos aranceles no incluyen ninguna"},
+    {"cuando": "Viene sólo a certificar una firma, sin trámite registral atrás", "en": "Cualquier caso", "cobras": "Arancel 8, la certificación es el trámite"}
+  ],
+  "antes": {
+    "titulo": "Antes de cobrar, preguntate si esa firma se certifica",
+    "texto": "Hay firmas que directamente no se certifican, y ahí no cobrás porque no hacés nada. Son distintas de las bonificadas: si algo está incluido, lo hacés y no lo cobrás aparte; si no corresponde, ni lo hacés.",
+    "items": [
+      "Prenda o leasing donde el acreedor o dador es el Estado, una repartición autárquica, un banco o entidad financiera del BCRA, un organismo internacional del que Argentina sea miembro, o una cooperativa",
+      "Firmas de jueces, secretarios, autorizados a diligenciar o letrados en Solicitudes que van con carácter de minuta, y las de los escribanos autorizantes de transferencias por escritura pública",
+      "Cualquier Solicitud Tipo que se acompañe como minuta",
+      "Solicitud Tipo 99 y Formulario 58"
+    ]
+  },
+  "gris": "Que el arancel 4 incluya UNA sola es lectura mía, no texto. Los aranceles 1, 2 y 3 dicen «DOS (2)» con todas las letras; el 4, el 5, el 6 y el 7 C dicen «Certificación de firmas/Validación remota» en singular y sin numeral. Se puede leer como una sola, o como que el concepto está incluido sin tope. Hasta que la Dirección Nacional lo aclare, conviene preguntar antes de cobrar la segunda en un cambio de motor.",
+  "gris2": "Tampoco dice qué letra del arancel 8 corresponde a la certificación. El 8 lista seis letras con importes (A 3, B 8, C 22, D 4, E 2 y F 11 MRPA) y siete conceptos, sin vincularlos. Por el orden de los renglones, la A es la lectura razonable, y es la que usa el curso de la Dirección Nacional. No está dicho.",
+  "fundamento": [
+    {"id":"a:I:1","cita":"Resol. MJ 412/2026, Anexo I, arancel 1 — INSCRIPCIÓN INICIAL","dice":"«En todos los casos, se encuentran incluidos: DOS (2) certificaciones de firmas/Validación remota», además de cédula, título, placas metálicas, alta impositiva y oblea de plazo de gracia."},
+    {"id":"a:I:2","cita":"Resol. MJ 412/2026, Anexo I, arancel 2 — TRANSFERENCIA","dice":"«En todos los casos, se encuentran incluidos: DOS (2) certificaciones de firmas/Validación remota», más envío de legajo por transferencia, cédula, título, alta impositiva y baja impositiva por cambio de radicación."},
+    {"id":"a:I:3","cita":"Resol. MJ 412/2026, Anexo I, arancel 3 — PRENDA Y LEASING","dice":"«En todos los casos se encuentran incluidas DOS (2) certificaciones de firmas/Validación remota», tanto en la inscripción y reinscripción como en los trámites posteriores."},
+    {"id":"a:I:4","cita":"Resol. MJ 412/2026, Anexo I, arancel 4 — MODIFICACIONES","dice":"«En todos los casos se encuentran incluidos: Certificación de firmas/Validación remota», en singular y sin numeral. Los aranceles 4 A y 4 B también incluyen cédula y título."},
+    {"id":"a:I:5","cita":"Resol. MJ 412/2026, Anexo I, arancel 5 — INFORMES, CERTIFICADOS Y DENUNCIAS","dice":"«Todos incluyen certificación de firmas/validación remota.» El 5 B incluye además cédula y el 5 C también placas metálicas."},
+    {"id":"a:I:6","cita":"Resol. MJ 412/2026, Anexo I, arancel 6 — JURÍDICO/ADMINISTRATIVO","dice":"«Incluyen certificación de firmas/validación remota.» Cubre anotación, levantamiento o modificación de medidas precautorias, y anotación de cualquier acto que afecte el dominio no contemplado en la Resolución."},
+    {"id":"a:I:7","cita":"Resol. MJ 412/2026, Anexo I, arancel 7 — ESPECIALES","dice":"«El arancel 7 C incluye certificación de firmas/validación remota.» Sólo el 7 C: el 7 A y el 7 B, que son mora, rehabilitación e incumplimiento del habitualista, no incluyen ninguna."},
+    {"id":"a:I:8","cita":"Resol. MJ 412/2026, Anexo I, arancel 8 — ADICIONALES","dice":"Lista «Certificación de firmas de personas físicas/validación remota/ con o sin acreditación de personería» como concepto adicional, con seis letras de importe y sin decir cuál corresponde."},
+    {"id":"a:II:4","cita":"Resol. MJ 412/2026, Anexo II (Motovehículos), arancel 4 — MODIFICACIONES","dice":"Incluye «Certificación de firmas/Validación remota», y aclara que sólo el arancel 4 A incluye además cédula y título: a diferencia del Anexo I, acá el 4 B no los trae."},
+    {"id":"a:III:4","cita":"Resol. MJ 412/2026, Anexo III (MAVI), arancel 4 — MODIFICACIONES","dice":"Incluye «la certificación de la firma del peticionante/Validación remota» —sólo la del peticionante— y únicamente el 4 A agrega cédula y título."},
+    {"id":"d:T1|V|1|3","cita":"Título I, Cap. V, Secc. 1ª, art. 3º","dice":"Enumera las firmas que no requieren certificación: prenda o leasing con el Estado, bancos, entidades del BCRA, organismos internacionales o cooperativas; jueces, secretarios, autorizados y letrados en Solicitudes con carácter de minuta; cualquier Solicitud acompañada como minuta; y la ST 99 y los Formularios 58."},
+    {"id":"d:T1|V|1|1","cita":"Título I, Cap. V, Secc. 1ª, art. 1º","dice":"Enumera quiénes pueden certificar firmas o validar identidad: el Encargado de la radicación o el del Registro donde se presenta el trámite, escribanos, autoridades de la Dirección Nacional, jueces, secretarios y prosecretarios, cónsules, y los habilitados por terminales y comerciantes habitualistas respecto de la firma del comprador."}
+  ]
+},
+{
+  "id": "regla-envio-de-legajo",
+  "tramite": "radicacion",
+  "titulo": "Envío de legajo",
+  "pregunta": "¿El envío de legajo está bonificado siempre o sólo en la transferencia?",
+  "sinonimos": ["envio de legajo bonificado","el legajo se cobra aparte","legajo en cambio de domicilio","recepcion de legajo","pedido de legajo","cuando cobro el envio de legajo","2 mrpa legajo"],
+  "veredicto": "Sólo en la transferencia viene incluido. En el cambio de domicilio no se cobra aparte: encarece el arancel 4.",
+  "entrada": "Acá hay tres situaciones distintas que en el mostrador se mezclan, y conviene separarlas porque se cobran de tres maneras distintas.",
+  "tabla": {
+    "titulo": "Las tres situaciones",
+    "cols": ["Situación", "Qué pasa", "Automotor", "Motos", "MAVI"],
+    "filas": [
+      ["Envío por transferencia", "Incluido en el arancel 2", "no cobrás", "no cobrás", "no cobrás"],
+      ["Cambio de domicilio con envío", "El arancel 4 se aumenta", "+2 MRPA", "+1,40 MRPA", "+2 MRPA"],
+      ["Recepción del legajo que llega de otro Registro", "No figura como concepto arancelable", "no cobrás", "no cobrás", "no cobrás"]
+    ],
+    "pie": "El pedido de legajo tampoco figura en ninguna de las 34 categorías: por eso el sistema te obliga a bonificarlo. La consulta de legajo se cobraba antes y la Resolución 412/2026 la sacó del cuadro."
+  },
+  "casos": [
+    {"cuando": "Hay transferencia y el legajo sale para otro Registro", "en": "Anexos I, II y III", "cobras": "Nada: va dentro del arancel 2"},
+    {"cuando": "Hay cambio de domicilio y el legajo sale para otro Registro", "en": "Anexos I, II y III", "cobras": "No es un concepto aparte: el arancel 4 sube 2 MRPA (1,40 en motos)"},
+    {"cuando": "Recibís el legajo que manda otro Registro", "en": "Cualquier caso", "cobras": "Nada. No existe como concepto en la Resolución"}
+  ],
+  "gris": "Que la recepción no se cobre surge de que no figura en ninguna de las 34 categorías arancelarias, no de una norma que lo diga expresamente. La ausencia es la respuesta, pero es un argumento por omisión.",
+  "fundamento": [
+    {"id":"a:I:2","cita":"Resol. MJ 412/2026, Anexo I, arancel 2 — TRANSFERENCIA","dice":"Lista «Envío de legajo por transferencia» entre los conceptos incluidos en todos los casos, junto con las dos certificaciones, la cédula, el título y las altas y bajas impositivas."},
+    {"id":"a:I:4","cita":"Resol. MJ 412/2026, Anexo I, arancel 4 — MODIFICACIONES","dice":"Dentro de las modificaciones del titular: «Cambio de domicilio (si es con envío de legajo se aumentará 2 MRPA)». No es un concepto aparte: es un incremento del propio arancel 4."},
+    {"id":"a:II:4","cita":"Resol. MJ 412/2026, Anexo II (Motovehículos), arancel 4 — MODIFICACIONES","dice":"El mismo incremento por cambio de domicilio con envío de legajo, pero de 1,40 MRPA en lugar de 2."},
+    {"id":"d:T1|III|4|1","cita":"Título I, Cap. III, Secc. 4ª, art. 1º","dice":"En la Planilla Diaria de Caja se asienta la leyenda «PC» cuando el pedido de legajo es por corresponder, o «04» cuando se sustenta en una Solicitud Tipo «04»: el concepto se registra aunque no tribute."}
+  ]
+}
+]

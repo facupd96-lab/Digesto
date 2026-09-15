@@ -5,6 +5,7 @@ var UNITS = DATA.units;
 var BYID = {}; for (var i=0;i<UNITS.length;i++) BYID[UNITS[i].id] = UNITS[i];
 var FICHAS = DATA.fichas;
 var TRAMITES = DATA.tramites;
+var REGLAS = DATA.reglas || [];
 var TRNAME = {}; TRAMITES.forEach(function(t){ TRNAME[t.k] = t.n; });
 
 /* ------------------------------------------------------------------ utils */
@@ -39,6 +40,34 @@ var FIDX = FICHAS.map(function(f){
              ].join(' '))
   };
 });
+var RIDX = REGLAS.map(function(r){
+  var t = [r.titulo, r.pregunta, r.veredicto, r.entrada || ''];
+  if (r.tabla){ t.push(r.tabla.titulo||''); t.push(r.tabla.pie||'');
+    (r.tabla.filas||[]).forEach(function(f){ t.push(f.join(' ')); }); }
+  (r.casos||[]).forEach(function(c){ t.push(c.cuando+' '+c.en+' '+c.cobras); });
+  if (r.antes){ t.push(r.antes.titulo+' '+r.antes.texto+' '+(r.antes.items||[]).join(' ')); }
+  return { r: r, tt: norm(r.titulo + ' ' + r.pregunta), sn: norm((r.sinonimos||[]).join(' ')), cu: norm(t.join(' ')) };
+});
+function buscarReglas(q){
+  var ts = toks(q); if (!ts.length) return [];
+  var out = [];
+  for (var i=0;i<RIDX.length;i++){
+    var x = RIDX[i], s = 0, hit = 0;
+    for (var j=0;j<ts.length;j++){
+      var t = ts[j], h = 0;
+      if (x.tt.indexOf(t) >= 0){ s += 9; h = 1; }
+      if (x.sn.indexOf(t) >= 0){ s += 6; h = 1; }
+      if (x.cu.indexOf(t) >= 0){ s += 2; h = 1; }
+      hit += h;
+    }
+    if (!s) continue;
+    s = s * (1 + hit / ts.length);
+    if (hit === ts.length) s += 16;
+    out.push({ r: x.r, s: s });
+  }
+  out.sort(function(a,b){ return b.s - a.s; });
+  return out;
+}
 function buscarFichas(q, limite){
   var ts = toks(q); if (!ts.length) return [];
   var out = [];
@@ -103,8 +132,8 @@ function recorte(texto, q){
 }
 
 /* ------------------------------------------------------------ navegación  */
-var VIEWS = ['inicio','tramites','tramite','ficha','digesto','articulo','nosotros'];
-var RAIL = { inicio:'inicio', tramites:'tramites', tramite:'tramites', ficha:'tramites',
+var VIEWS = ['inicio','tramites','tramite','ficha','regla','digesto','articulo','nosotros'];
+var RAIL = { inicio:'inicio', tramites:'tramites', tramite:'tramites', ficha:'tramites', regla:'inicio',
              digesto:'digesto', articulo:'digesto', nosotros:'nosotros' };
 var pila = [];
 function ir(v, arg, sinPila){
@@ -114,7 +143,7 @@ function ir(v, arg, sinPila){
   document.querySelectorAll('.rail button[data-view]').forEach(function(b){
     b.setAttribute('aria-current', b.dataset.view === RAIL[v] ? 'true' : 'false');
   });
-  ({ inicio:vInicio, tramites:vTramites, tramite:vTramite, ficha:vFicha,
+  ({ inicio:vInicio, tramites:vTramites, tramite:vTramite, ficha:vFicha, regla:vRegla,
      digesto:vDigesto, articulo:vArticulo, nosotros:vNosotros })[v](arg);
   window.scrollTo(0,0);
 }
@@ -148,6 +177,10 @@ function vInicio(){
     '</div>' +
     '<div id="qres"></div>' +
     '<div id="qhome">' +
+      (REGLAS.length
+        ? '<p class="eyebrow" style="margin-top:30px">Las reglas que cruzan todos los trámites</p>' +
+          '<div class="stack">' + REGLAS.map(botonRegla).join('') + '</div>'
+        : '') +
       '<p class="eyebrow" style="margin-top:30px">Las que más se preguntan</p>' +
       '<div class="stack">' + DESTACADAS.map(botonFicha).join('') + '</div>' +
       '<p class="eyebrow" style="margin-top:30px">O entrá por el trámite</p>' +
@@ -166,7 +199,19 @@ function vInicio(){
   function pintar(q){
     if (norm(q).length < 3){ res.innerHTML = ''; home.hidden = false; return; }
     home.hidden = true;
+    var rg = buscarReglas(q);
     var r = buscarFichas(q, 10);
+    if (rg.length){
+      res.innerHTML = '<p class="eyebrow" style="margin-top:22px">La regla</p>' +
+        reglaHTML(rg[0].r, 'margin-top:10px') +
+        (rg.length > 1 ? '<div class="stack">' + rg.slice(1).map(function(x){ return botonRegla(x.r); }).join('') + '</div>' : '') +
+        (r.length
+          ? '<p class="eyebrow" style="margin-top:26px">Y los casos concretos</p><div class="stack">' +
+            r.slice(0,5).map(function(x){ return botonFicha(x.f); }).join('') + '</div>'
+          : '') +
+        '<div class="rowbtns"><button class="btn ghost" data-digesto="' + esc(q) + '">Buscar «' + esc(q) + '» en el Digesto</button></div>';
+      return;
+    }
     if (!r.length){
       var d = buscarUnits(q, 'todo', 6);
       res.innerHTML = '<div class="card" style="padding:22px;margin-top:18px">' +
@@ -273,6 +318,81 @@ function fichaHTML(f, estilo){
 function grupoCobro(cls, titulo, items){
   return '<div class="cg ' + cls + '"><div class="ct">' + esc(titulo) + '</div><ul>' +
     items.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+}
+
+/* ------------------------------------------------------- REGLAS MAESTRAS */
+function vRegla(id){
+  var r = REGLAS.find(function(x){ return x.id === id; });
+  if (!r){ ir('inicio', null, true); return; }
+  el('v-regla').innerHTML =
+    '<button class="btn ghost" data-volver>← Volver</button>' +
+    reglaHTML(r, 'margin-top:18px') +
+    '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir esta regla</button>' +
+    '<button class="btn ghost" data-anotar="' + esc(r.titulo) + '">Anotar una corrección</button></div>';
+}
+function reglaHTML(r, estilo){
+  var h = '<article class="regla" style="' + (estilo || '') + '">';
+  h += '<div class="hd"><div class="tg">Regla que cruza varios trámites</div>' +
+       '<h2 class="tt">' + esc(r.titulo) + '</h2>' +
+       '<p class="pg">' + esc(r.pregunta) + '</p></div>';
+  h += '<div class="ver">' + esc(r.veredicto) + '</div>';
+  if (r.entrada) h += '<p class="entrada">' + esc(r.entrada) + '</p>';
+
+  if (r.tabla){
+    var t = r.tabla;
+    h += '<div class="tw"><table class="mx">';
+    if (t.titulo) h += '<caption>' + esc(t.titulo) + '</caption>';
+    h += '<thead><tr>' + t.cols.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    t.filas.forEach(function(f){
+      h += '<tr><th scope="row">' + esc(f[0]) + '</th>' +
+           f.slice(1).map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
+    });
+    h += '</tbody></table></div>';
+    if (t.pie) h += '<p class="tpie">' + esc(t.pie) + '</p>';
+  }
+
+  if ((r.casos||[]).length){
+    h += '<p class="eyebrow" style="margin:22px 20px 0">Cuándo sí se cobra</p><div class="casos">';
+    r.casos.forEach(function(c){
+      h += '<div class="caso"><p class="cu">' + esc(c.cuando) + '</p>' +
+           (c.en ? '<p class="en">' + esc(c.en) + '</p>' : '') +
+           '<p class="co">' + esc(c.cobras) + '</p></div>';
+    });
+    h += '</div>';
+  }
+
+  if (r.antes){
+    h += '<div class="previo"><h4>' + esc(r.antes.titulo) + '</h4><p>' + esc(r.antes.texto) + '</p>';
+    if ((r.antes.items||[]).length)
+      h += '<ul>' + r.antes.items.map(function(i){ return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>';
+    h += '</div>';
+  }
+
+  if (r.gris || r.gris2){
+    h += '<div class="gris"><h4>Lo que la norma no dice</h4>';
+    if (r.gris)  h += '<p>' + esc(r.gris) + '</p>';
+    if (r.gris2) h += '<p>' + esc(r.gris2) + '</p>';
+    h += '</div>';
+  }
+
+  if ((r.fundamento||[]).length){
+    h += '<details class="mas" style="margin-top:18px"><summary>Ver los ' + r.fundamento.length +
+         ' artículos en que se apoya</summary><div class="inner">';
+    r.fundamento.forEach(function(x){
+      var existe = !!BYID[x.id];
+      h += '<div class="fu">' +
+        (existe ? '<button data-art="' + esc(x.id) + '">' + esc(x.cita) + ' →</button>'
+                : '<span class="mono" style="font-size:13.5px;color:var(--ink-3)">' + esc(x.cita) + '</span>') +
+        '<p class="d">' + esc(x.dice) + '</p></div>';
+    });
+    h += '</div></details>';
+  }
+  h += '</article>';
+  return h;
+}
+function botonRegla(r){
+  return '<button class="reglahome" data-regla="' + esc(r.id) + '"><span class="ar">→</span>' +
+    '<span><b>' + esc(r.titulo) + '</b><span class="d">' + esc(r.veredicto) + '</span></span></button>';
 }
 
 /* --------------------------------------------------------------- DIGESTO  */
@@ -415,6 +535,11 @@ function anotar(txt){
   guardarNotas(n);
   ir('nosotros');
 }
+function textoNotas(){
+  var n = notas(); if (!n.length) return '';
+  return 'Dudas del mostrador — ' + new Date().toLocaleDateString('es-AR') + '\n\n' +
+    n.map(function(x, i){ return (i+1) + '. ' + x.t + '  (' + x.f + ')'; }).join('\n');
+}
 function vNosotros(){
   var n = notas();
   var reservas = FICHAS.filter(function(f){ return f.sin_respaldo; });
@@ -430,6 +555,9 @@ function vNosotros(){
       '<p class="note" style="margin-top:10px">Se guarda solo en esta computadora. Para pasarlas a otro lado, copialas a mano.</p>' +
     '</div>';
   h += '<p class="eyebrow" style="margin-top:28px">Notas guardadas (' + n.length + ')</p>';
+  if (n.length) h += '<div class="rowbtns" style="margin-top:8px;margin-bottom:4px">' +
+    '<button class="btn" id="nt-wa">Mandarlas por WhatsApp</button>' +
+    '<button class="btn ghost" id="nt-copy">Copiar la lista</button></div>';
   h += n.length
     ? '<div class="stack">' + n.map(function(x, i){
         return '<div class="nota"><div><p>' + esc(x.t) + '</p><p class="mt">' + esc(x.f) + '</p></div>' +
@@ -454,6 +582,16 @@ function vNosotros(){
         esc(f.sin_respaldo) + '</span></span></button>'; }).join('') + '</div></div></details>';
   el('v-nosotros').innerHTML = h;
 
+  var btnW = el('nt-wa'), btnC = el('nt-copy');
+  if (btnW) btnW.addEventListener('click', function(){
+    var t = textoNotas(); if (!t) return;
+    window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+  });
+  if (btnC) btnC.addEventListener('click', function(){
+    var t = textoNotas(); if (!t) return;
+    try { navigator.clipboard.writeText(t); btnC.textContent = 'Copiado'; setTimeout(function(){ btnC.textContent = 'Copiar la lista'; }, 1800); }
+    catch(e){ window.prompt('Copiá esto:', t); }
+  });
   el('nt-add').addEventListener('click', function(){
     var t = el('nt').value.trim(); if (!t) return;
     anotar(t);
@@ -470,6 +608,7 @@ el('btn-imprimir').addEventListener('click', function(){ window.print(); });
 document.addEventListener('click', function(ev){
   var t;
   if ((t = ev.target.closest('[data-ficha]')))   { ir('ficha', t.dataset.ficha); return; }
+  if ((t = ev.target.closest('[data-regla]')))   { ir('regla', t.dataset.regla); return; }
   if ((t = ev.target.closest('[data-tramite]'))) { ir('tramite', t.dataset.tramite); return; }
   if ((t = ev.target.closest('[data-art]')))     { ir('articulo', t.dataset.art); return; }
   if ((t = ev.target.closest('[data-goto]')))    { ir(t.dataset.goto); return; }
