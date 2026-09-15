@@ -6,6 +6,13 @@ var BYID = {}; for (var i=0;i<UNITS.length;i++) BYID[UNITS[i].id] = UNITS[i];
 var FICHAS = DATA.fichas;
 var TRAMITES = DATA.tramites;
 var REGLAS = DATA.reglas || [];
+var GUIAS  = DATA.guias  || [];
+var GUIA   = {}; GUIAS.forEach(function(g){ GUIA[g.tramite] = g; });
+
+/* sólo automotor, salvo que se active lo demás en Para nosotros */
+var KSOLO = 'mostrador.soloAutomotor';
+function soloAutomotor(){ try { return localStorage.getItem(KSOLO) !== 'no'; } catch(e){ return true; } }
+function setSoloAutomotor(v){ try { localStorage.setItem(KSOLO, v ? 'si' : 'no'); } catch(e){} }
 var TRNAME = {}; TRAMITES.forEach(function(t){ TRNAME[t.k] = t.n; });
 
 /* ------------------------------------------------------------------ utils */
@@ -17,7 +24,8 @@ function norm(s){
 }
 var STOP = {'de':1,'la':1,'el':1,'en':1,'y':1,'a':1,'los':1,'las':1,'del':1,'se':1,'un':1,'una':1,
   'por':1,'con':1,'que':1,'para':1,'es':1,'al':1,'lo':1,'o':1,'como':1,'cuando':1,'cual':1,'cuales':1,
-  'si':1,'me':1,'le':1,'mi':1,'su':1,'hay':1,'ser':1,'tengo':1,'tiene':1,'debe':1,'qué':1,'que':1};
+  'si':1,'me':1,'le':1,'mi':1,'su':1,'hay':1,'ser':1,'tengo':1,'tiene':1,'debe':1,'qué':1,
+  'cuanto':1,'cuanta':1,'cuantos':1,'cuantas':1,'donde':1,'quien':1,'esta':1,'este':1,'esto':1,'mas':1};
 function toks(s){
   return norm(s).split(' ').filter(function(t){ return t.length>2 && !STOP[t]; });
 }
@@ -48,19 +56,54 @@ var RIDX = REGLAS.map(function(r){
   if (r.antes){ t.push(r.antes.titulo+' '+r.antes.texto+' '+(r.antes.items||[]).join(' ')); }
   return { r: r, tt: norm(r.titulo + ' ' + r.pregunta), sn: norm((r.sinonimos||[]).join(' ')), cu: norm(t.join(' ')) };
 });
+var GIDX = GUIAS.map(function(g){
+  var t = [g.titulo, g.resumen];
+  (g.variantes||[]).forEach(function(v){ t.push(v.n + ' ' + v.d); });
+  (g.firman||[]).forEach(function(x){ t.push(x); });
+  (g.traen||[]).forEach(function(x){ t.push(x); });
+  if (g.segun) (g.segun.filas||[]).forEach(function(f){ t.push(f.join(' ')); });
+  if (g.verificacion) t.push(g.verificacion.lleva + ' ' + g.verificacion.detalle);
+  (g.ojo||[]).forEach(function(x){ t.push(x); });
+  var c = g.cobro || {};
+  t.push([c.base||''].concat(c.incluye||[], c.sumar||[], c.sacar||[]).join(' '));
+  return { g: g,
+    nom: norm((TRNAME[g.tramite] || '') + ' ' + g.titulo),
+    itn: norm('requisitos requisito presenta presentar papeles documentacion pido piden pide necesita hace falta firma firman guia tramite como se cobra'),
+    cu: norm(t.join(' ')) };
+});
+function buscarGuias(q){
+  var ts = toks(q); if (!ts.length) return [];
+  var out = [];
+  for (var i=0;i<GIDX.length;i++){
+    var x = GIDX[i], s = 0, hit = 0, nom = 0;
+    for (var j=0;j<ts.length;j++){
+      var t = ts[j], h = 0;
+      if (x.nom.indexOf(t) >= 0){ s += 10; h = 1; nom = 1; }
+      if (x.itn.indexOf(t) >= 0){ s += 4;  h = 1; }
+      if (x.cu.indexOf(t)  >= 0){ s += 2;  h = 1; }
+      hit += h;
+    }
+    // la guia sólo gana si la consulta nombra el trámite; si no, manda la regla
+    if (!nom || hit < Math.ceil(ts.length * 0.6)) continue;
+    out.push({ g: x.g, s: s });
+  }
+  out.sort(function(a,b){ return b.s - a.s; });
+  return out;
+}
 function buscarReglas(q){
   var ts = toks(q); if (!ts.length) return [];
   var out = [];
   for (var i=0;i<RIDX.length;i++){
-    var x = RIDX[i], s = 0, hit = 0;
+    var x = RIDX[i], s = 0, hit = 0, fuerte = 0;
     for (var j=0;j<ts.length;j++){
       var t = ts[j], h = 0;
-      if (x.tt.indexOf(t) >= 0){ s += 9; h = 1; }
-      if (x.sn.indexOf(t) >= 0){ s += 6; h = 1; }
+      if (x.tt.indexOf(t) >= 0){ s += 9; h = 1; fuerte++; }
+      if (x.sn.indexOf(t) >= 0){ s += 6; h = 1; fuerte++; }
       if (x.cu.indexOf(t) >= 0){ s += 2; h = 1; }
       hit += h;
     }
-    if (!s) continue;
+    // que aparezca la palabra en el cuerpo no alcanza: tiene que nombrar el tema
+    if (!s || fuerte < Math.ceil(ts.length * 0.6) || hit < Math.ceil(ts.length * 0.6)) continue;
     s = s * (1 + hit / ts.length);
     if (hit === ts.length) s += 16;
     out.push({ r: x.r, s: s });
@@ -177,16 +220,12 @@ function vInicio(){
     '</div>' +
     '<div id="qres"></div>' +
     '<div id="qhome">' +
+      '<p class="eyebrow" style="margin-top:28px">Entrá por el trámite</p>' +
+      '<div class="tiles">' + TRAMITES.map(tejaTramite).join('') + '</div>' +
       (REGLAS.length
         ? '<p class="eyebrow" style="margin-top:30px">Las reglas que cruzan todos los trámites</p>' +
           '<div class="stack">' + REGLAS.map(botonRegla).join('') + '</div>'
         : '') +
-      '<p class="eyebrow" style="margin-top:30px">Las que más se preguntan</p>' +
-      '<div class="stack">' + DESTACADAS.map(botonFicha).join('') + '</div>' +
-      '<p class="eyebrow" style="margin-top:30px">O entrá por el trámite</p>' +
-      '<div class="tiles">' + TRAMITES.slice(0,6).map(tejaTramite).join('') +
-      '<button class="tile" data-goto="tramites"><span class="t">Ver los ' + TRAMITES.length + ' trámites</span>' +
-      '<span class="c">Todo el listado</span></button></div>' +
     '</div>';
 
   var inp = el('q'), res = el('qres'), home = el('qhome'), tmr = null;
@@ -199,8 +238,18 @@ function vInicio(){
   function pintar(q){
     if (norm(q).length < 3){ res.innerHTML = ''; home.hidden = false; return; }
     home.hidden = true;
+    var gu = buscarGuias(q);
     var rg = buscarReglas(q);
     var r = buscarFichas(q, 10);
+    if (gu.length){
+      res.innerHTML = '<p class="eyebrow" style="margin-top:22px">La guía del trámite</p>' +
+        guiaHTML(gu[0].g, 'margin-top:10px') +
+        (rg.length ? '<p class="eyebrow" style="margin-top:26px">Y la regla que lo cruza</p><div class="stack">' +
+           rg.map(function(x){ return botonRegla(x.r); }).join('') + '</div>' : '') +
+        (r.length ? '<p class="eyebrow" style="margin-top:26px">Preguntas puntuales</p><div class="stack">' +
+           r.slice(0,4).map(function(x){ return botonFicha(x.f); }).join('') + '</div>' : '');
+      return;
+    }
     if (rg.length){
       res.innerHTML = '<p class="eyebrow" style="margin-top:22px">La regla</p>' +
         reglaHTML(rg[0].r, 'margin-top:10px') +
@@ -245,8 +294,10 @@ function botonFicha(f){
 }
 function tejaTramite(t){
   var n = FICHAS.filter(function(f){ return f.tramite === t.k; }).length;
-  return '<button class="tile" data-tramite="' + esc(t.k) + '"><span class="t">' + esc(t.n) + '</span>' +
-    '<span class="c">' + n + (n === 1 ? ' respuesta' : ' respuestas') + '</span></button>';
+  var g = !!GUIA[t.k];
+  return '<button class="tile' + (g ? ' hot' : '') + '" data-tramite="' + esc(t.k) + '">' +
+    '<span class="t">' + esc(t.n) + '</span>' +
+    '<span class="c">' + (g ? 'Guía de mostrador · ' : '') + n + (n === 1 ? ' respuesta' : ' respuestas') + '</span></button>';
 }
 
 /* -------------------------------------------------------------- TRÁMITES  */
@@ -260,12 +311,91 @@ function vTramites(){
 function vTramite(k){
   var t = TRAMITES.find(function(x){ return x.k === k; }) || { k: k, n: k };
   var fs = FICHAS.filter(function(f){ return f.tramite === k; });
-  el('v-tramite').innerHTML =
-    '<button class="btn ghost" data-volver>← Volver</button>' +
-    '<p class="eyebrow" style="margin-top:20px">Trámite</p>' +
-    '<h2 style="font-size:26px;margin-top:4px">' + esc(t.n) + '</h2>' +
-    '<p class="lede">' + fs.length + (fs.length === 1 ? ' pregunta resuelta' : ' preguntas resueltas') + ' con el artículo que la respalda.</p>' +
-    '<div class="stack">' + fs.map(botonFicha).join('') + '</div>';
+  var g  = GUIA[k];
+  var rs = REGLAS.filter(function(r){ return r.tramite === k; });
+  var h  = '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>';
+
+  if (g){
+    h += guiaHTML(g, 'margin-top:14px');
+  } else {
+    h += '<p class="eyebrow" style="margin-top:20px">Trámite</p>' +
+         '<h2 style="font-size:26px;margin-top:4px">' + esc(t.n) + '</h2>' +
+         '<p class="lede">Todavía no armé la guía de mostrador de este trámite. Abajo están las preguntas resueltas que sí tiene.</p>';
+  }
+
+  if (rs.length)
+    h += '<p class="eyebrow" style="margin-top:26px">La regla que lo cruza</p>' +
+         '<div class="stack">' + rs.map(botonRegla).join('') + '</div>';
+
+  if (fs.length){
+    h += '<details class="acc sueltas"><summary>Preguntas puntuales de este trámite<span class="cnt">' + fs.length + '</span></summary>' +
+         '<div class="sec"><div class="stack" style="margin-top:0">' + fs.map(botonFicha).join('') + '</div></div></details>';
+  }
+  h += '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir</button>' +
+       '<button class="btn ghost" data-anotar="Falta algo en ' + esc(t.n) + '">Falta algo acá</button></div>';
+  el('v-tramite').innerHTML = h;
+}
+
+/* ------------------------------------------------- GUÍA DE MOSTRADOR */
+function guiaHTML(g, estilo){
+  var h = '<article class="guia" style="' + (estilo || '') + '">';
+  h += '<div class="hd"><div class="tg">Guía de mostrador</div>' +
+       '<h2 class="tt">' + esc(g.titulo) + '</h2></div>';
+  if (g.resumen) h += '<div class="ver">' + esc(g.resumen) + '</div>';
+
+  if ((g.variantes||[]).length){
+    h += '<div class="gb"><h4>Primero: de cuál de estos se trata</h4><div class="vars">' +
+      g.variantes.map(function(v){
+        return '<div class="var"><p class="vn">' + esc(v.n) + '</p><p class="vd">' + esc(v.d) + '</p></div>';
+      }).join('') + '</div></div>';
+  }
+  if ((g.firman||[]).length)
+    h += '<div class="gb firmas"><h4>Quién firma</h4><ul>' +
+      g.firman.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+  if ((g.traen||[]).length)
+    h += '<div class="gb"><h4>Qué te tienen que traer</h4><ul>' +
+      g.traen.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+
+  if (g.segun){
+    h += '<div class="gb"><h4>' + esc(g.segun.titulo) + '</h4>' +
+      '<div class="tw" style="margin:0"><table class="mx"><thead><tr>' +
+      g.segun.cols.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' +
+      g.segun.filas.map(function(f){
+        return '<tr><th scope="row">' + esc(f[0]) + '</th>' +
+          f.slice(1).map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
+      }).join('') + '</tbody></table></div></div>';
+  }
+  if (g.verificacion)
+    h += '<div class="gb ver"><h4>Verificación</h4><p class="vv">' + esc(g.verificacion.lleva) + '</p>' +
+         '<p class="vd">' + esc(g.verificacion.detalle) + '</p></div>';
+
+  var c = g.cobro || {};
+  if (c.base || (c.incluye||[]).length || (c.sumar||[]).length || (c.sacar||[]).length){
+    h += '<div class="gb"><h4>En la caja</h4>';
+    if (c.base) h += '<div class="cg"><div class="ct">Sobre qué se calcula</div><p class="tx" style="font-size:15.5px">' + esc(c.base) + '</p></div>';
+    if ((c.incluye||[]).length) h += grupoCobro('inc','Ya viene incluido — no lo cobres aparte', c.incluye);
+    if ((c.sumar||[]).length)   h += grupoCobro('sum','Hay que sumarlo', c.sumar);
+    if ((c.sacar||[]).length)   h += grupoCobro('sac','Hay que sacarlo del sistema', c.sacar);
+    h += '</div>';
+  }
+  if ((g.ojo||[]).length)
+    h += '<div class="gb ojos"><h4>Ojo con esto</h4><ul>' +
+      g.ojo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+
+  if ((g.fundamento||[]).length){
+    h += '<details class="mas"><summary>Ver los ' + g.fundamento.length + ' artículos en que se apoya</summary><div class="inner">';
+    g.fundamento.forEach(function(x){
+      var existe = !!BYID[x.id];
+      h += '<div class="fu">' +
+        (existe ? '<button data-art="' + esc(x.id) + '">' + esc(x.cita) + ' →</button>'
+                : '<span class="mono" style="font-size:13.5px;color:var(--ink-3)">' + esc(x.cita) + '</span>') +
+        '<p class="d">' + esc(x.dice) + '</p></div>';
+    });
+    h += '</div></details>';
+  }
+  h += '</article>';
+  return h;
 }
 
 /* ---------------------------------------------------------------- FICHA   */
@@ -273,7 +403,7 @@ function vFicha(id){
   var f = FICHAS.find(function(x){ return x.id === id; });
   if (!f){ ir('inicio', null, true); return; }
   el('v-ficha').innerHTML =
-    '<button class="btn ghost" data-volver>← Volver</button>' +
+    '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
     fichaHTML(f, 'margin-top:18px') +
     '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir esta ficha</button>' +
     '<button class="btn ghost" data-anotar="' + esc(f.pregunta) + '">Anotar una corrección</button></div>';
@@ -325,7 +455,7 @@ function vRegla(id){
   var r = REGLAS.find(function(x){ return x.id === id; });
   if (!r){ ir('inicio', null, true); return; }
   el('v-regla').innerHTML =
-    '<button class="btn ghost" data-volver>← Volver</button>' +
+    '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
     reglaHTML(r, 'margin-top:18px') +
     '<div class="rowbtns"><button class="btn ghost" data-imprimir>Imprimir esta regla</button>' +
     '<button class="btn ghost" data-anotar="' + esc(r.titulo) + '">Anotar una corrección</button></div>';
@@ -340,10 +470,17 @@ function reglaHTML(r, estilo){
 
   if (r.tabla){
     var t = r.tabla;
+    var keep = t.cols.map(function(c, i){
+      if (!soloAutomotor()) return true;
+      var n = norm(c);
+      return !(n === 'motos' || n === 'mavi' || n.indexOf('motovehic') >= 0);
+    });
+    var cols  = t.cols.filter(function(c, i){ return keep[i]; });
+    var filas = t.filas.map(function(f){ return f.filter(function(c, i){ return keep[i]; }); });
     h += '<div class="tw"><table class="mx">';
     if (t.titulo) h += '<caption>' + esc(t.titulo) + '</caption>';
-    h += '<thead><tr>' + t.cols.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>';
-    t.filas.forEach(function(f){
+    h += '<thead><tr>' + cols.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    filas.forEach(function(f){
       h += '<tr><th scope="row">' + esc(f[0]) + '</th>' +
            f.slice(1).map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
     });
@@ -502,7 +639,7 @@ function arbolHTML(){
 function vArticulo(id){
   var u = BYID[id];
   if (!u){ ir('digesto', null, true); return; }
-  var h = '<button class="btn ghost" data-volver>← Volver</button>' +
+  var h = '<div class="back"><button class="btn ghost" data-volver>← Volver</button></div>' +
     '<div class="art" style="margin-top:20px"><div class="head"><h2>' + esc(u.cita) + '</h2>';
   var ctx = [];
   if (u.ctit) ctx.push(u.ctit);
@@ -564,9 +701,18 @@ function vNosotros(){
           '<button data-del="' + i + '" title="Borrar">×</button></div>'; }).join('') + '</div>'
     : '<p class="note" style="margin-top:8px">Todavía no hay notas.</p>';
 
+  h += '<p class="eyebrow" style="margin-top:30px">Qué se muestra</p>' +
+    '<div class="card" style="padding:16px 18px;margin-top:8px">' +
+    '<label style="display:flex;gap:11px;align-items:flex-start;cursor:pointer">' +
+    '<input type="checkbox" id="chk-auto" style="width:auto;margin-top:3px;transform:scale(1.4)"' +
+    (soloAutomotor() ? ' checked' : '') + '>' +
+    '<span><b style="font-size:16.5px">Mostrar sólo automotores</b>' +
+    '<span style="display:block;font-size:14.5px;color:var(--ink-3);margin-top:3px">' +
+    'Oculta las columnas de motovehículos y MAVI en los cuadros. Destildalo si alguna vez hace falta verlas.</span></span></label></div>';
+
   h += '<p class="eyebrow" style="margin-top:32px">Qué hay cargado</p>' +
     '<div class="card" style="padding:16px 18px;margin-top:8px"><p class="note">' +
-    FICHAS.length + ' respuestas de mostrador · ' + DATA.meta.articulos_digesto + ' artículos del Digesto · ' +
+    GUIAS.length + ' guías de mostrador · ' + REGLAS.length + ' reglas que cruzan trámites · ' + FICHAS.length + ' respuestas puntuales · ' + DATA.meta.articulos_digesto + ' artículos del Digesto · ' +
     DATA.meta.anexos_digesto + ' anexos · ' + DATA.meta.articulos_norma + ' artículos de normativa superior · ' +
     UNITS.filter(function(u){ return u.tipo === 'arancel'; }).length + ' aranceles de la Resol. 412/2026.<br>' +
     curso + ' respuestas usan como fuente el curso de la DNRPA del 08/09/2026 además de la norma.' +
@@ -592,6 +738,8 @@ function vNosotros(){
     try { navigator.clipboard.writeText(t); btnC.textContent = 'Copiado'; setTimeout(function(){ btnC.textContent = 'Copiar la lista'; }, 1800); }
     catch(e){ window.prompt('Copiá esto:', t); }
   });
+  var chk = el('chk-auto');
+  if (chk) chk.addEventListener('change', function(){ setSoloAutomotor(chk.checked); });
   el('nt-add').addEventListener('click', function(){
     var t = el('nt').value.trim(); if (!t) return;
     anotar(t);
@@ -621,6 +769,7 @@ document.addEventListener('click', function(ev){
   }
 });
 document.addEventListener('keydown', function(ev){
+  if (ev.key === 'Escape' && ['ficha','regla','articulo','tramite'].indexOf(estado.v) >= 0){ ev.preventDefault(); volver(); return; }
   if (ev.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
     ev.preventDefault(); ir('inicio');
   }

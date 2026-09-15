@@ -232,9 +232,10 @@ table.mx tbody tr:nth-child(even){background:color-mix(in srgb,var(--surface-2) 
 .gris h4{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-3);font-weight:700;margin:0 0 7px}
 .gris p{font-size:15px;color:var(--ink-2);line-height:1.55}
 .gris p+p{margin-top:9px}
-.reglahome{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--accent-soft);
-  border:1.5px solid var(--accent-line);border-radius:10px;padding:15px 17px;font-size:17px;color:var(--ink)}
-.reglahome:hover{border-color:var(--accent);background:var(--surface)}
+.reglahome{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;background:var(--surface);
+  border:1.5px solid var(--line);border-radius:10px;padding:15px 17px;font-size:17px;color:var(--ink)}
+.reglahome:hover{border-color:var(--accent);background:var(--accent-soft)}
+.reglahome .ar{line-height:1.35}
 .reglahome .ar{color:var(--accent);font-size:19px;flex:none}
 .reglahome b{display:block;font-size:17.5px}
 .reglahome span.d{font-size:14.5px;color:var(--ink-3)}
@@ -244,6 +245,30 @@ table.mx tbody tr:nth-child(even){background:color-mix(in srgb,var(--surface-2) 
 .duda h3{font-size:17.5px;font-weight:600}
 .duda p{font-size:15px;color:var(--ink-3);margin-top:6px;line-height:1.5}
 .duda textarea{margin-top:12px}
+/* ---------- volver siempre a mano ---------- */
+.back{position:sticky;top:73px;z-index:15;margin-bottom:4px}
+@media (max-width:900px){ .back{top:64px} }
+
+/* ---------- guia operativa del tramite ---------- */
+.guia{background:var(--surface);border:2px solid var(--accent-line);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.guia .hd{padding:17px 20px 0}
+.guia .tg{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--accent)}
+.guia .tt{font-size:25px;font-weight:700;margin-top:4px;line-height:1.2}
+.gb{padding:16px 20px;border-top:1px solid var(--line)}
+.gb h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:0 0 10px;font-weight:700}
+.gb ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.gb li{font-size:16.5px;line-height:1.5;color:var(--ink)}
+.gb.firmas{background:var(--accent-soft)} .gb.firmas h4{color:var(--accent)}
+.gb.ver .vv{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:8px}
+.gb.ver .vd{font-size:16px;color:var(--ink-2);line-height:1.55}
+.gb.ojos{background:var(--warn-soft);border-top-color:var(--warn-line)}
+.gb.ojos h4{color:var(--warn)} .gb.ojos li{color:var(--warn)}
+.vars{display:flex;flex-direction:column;gap:9px;margin:0}
+.var{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 15px;background:var(--surface)}
+.var .vn{font-size:17.5px;font-weight:600}
+.var .vd{font-size:15.5px;color:var(--ink-2);margin-top:4px;line-height:1.5}
+.sueltas{margin-top:22px}
+
 @media print{ .duda,.reglahome{display:none!important} table.mx{font-size:10pt} }
 
 @media print{

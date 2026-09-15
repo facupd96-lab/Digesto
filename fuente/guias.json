@@ -1,0 +1,138 @@
+[
+{
+  "tramite": "transferencia",
+  "titulo": "Transferencia",
+  "resumen": "Firman comprador y vendedor, y el cónyuge si el vendedor es casado y el bien no es propio. Se cobra el arancel 2 y casi todo viene adentro.",
+  "firman": [
+    "El comprador, al dorso del 08, con el porcentaje que adquiere",
+    "El vendedor, con la firma certificada, y el porcentaje que transfiere",
+    "El cónyuge del vendedor, si es casado y el bien no figura como propio en el legajo: presta el asentimiento",
+    "Si hay condominio, firman todos: en la compra y en la venta"
+  ],
+  "traen": [
+    "Solicitud Tipo 08/08-D completa, con la verificación cumplida si corresponde",
+    "Título del Automotor — salvo que el trámite entre en el Registro de radicación y el dominio ya tenga Título Digital",
+    "Cédula de identificación: recién al retirar el trámite terminado. Si fue robada, hurtada o extraviada alcanza con denunciarlo",
+    "Constancia de CUIT, CUIL o CDI",
+    "Toda la documentación que el propio 08 haya referenciado",
+    "Si hay prenda: constancia de haberle avisado al acreedor prendario (copia del telegrama o de la carta documento)",
+    "Si hay leasing inscripto: constancia de que el tomador sabe de la venta"
+  ],
+  "verificacion": {
+    "lleva": "Depende de la fecha de inscripción inicial",
+    "detalle": "Automotores inscriptos inicialmente desde el 1/1/2001, y transporte de carga y pasajeros desde el 1/1/1995. No va por modelo-año: va por la fecha de inscripción inicial. Además verifica siempre, sin importar la fecha, la transferencia sin Título y la que se peticiona en el Registro de la futura radicación. Si ya se verificó para otra transferencia dentro de los 45 días corridos y esa verificación sigue vigente, no hace falta de nuevo."
+  },
+  "cobro": {
+    "base": "Arancel 2. El 1% de la tabla de valuación o el valor declarado en el 08, lo que resulte mayor, con un mínimo de 32 MRPA.",
+    "incluye": [
+      "Dos certificaciones de firmas o validación remota",
+      "Envío de legajo por transferencia",
+      "Cédula de identificación y Título del Automotor",
+      "Alta impositiva y baja impositiva por cambio de radicación"
+    ],
+    "sumar": [
+      "De la tercera certificación en adelante: arancel 8",
+      "Cédula adicional: arancel 8",
+      "Mora: arancel 7 B, 20% por año, hasta 5 aranceles",
+      "Chapas, si hacen falta: no vienen incluidas en la transferencia"
+    ],
+    "sacar": [
+      "Las dos primeras certificaciones: están bonificadas en el arancel 2",
+      "El envío de legajo: ya está adentro",
+      "El plus por acreditación de personería: el arancel 8 lo contempla igual",
+      "El CETA: las dos Secciones que lo regulaban están derogadas"
+    ]
+  },
+  "ojo": [
+    "El descuento del 10% al comerciante habitualista corre desde la inscripción a favor del habitualista, y sólo dentro de los 90 días posteriores",
+    "Si el arancel da cero por el beneficio del habitualista, la mora igual se calcula sobre el arancel que hubiera correspondido sin el beneficio",
+    "El trámite se despacha dentro de las 24 horas, salvo que tenga observaciones"
+  ],
+  "fundamento": [
+    {"id":"d:T2|II|1|23","cita":"Título II, Cap. II, Secc. 1ª, art. 23º","dice":"La lista obligatoria de documentación: el 08/08-D completo y verificado, el Título (salvo Título Digital en el Registro de radicación), la cédula al retirar, el CUIT/CUIL/CDI, lo referenciado en el 08, y las constancias de aviso al acreedor prendario y al tomador del leasing."},
+    {"id":"d:T2|II|1|18","cita":"Título II, Cap. II, Secc. 1ª, art. 18º","dice":"«Si el vendedor es de estado civil casado, y no se tratare de un bien propio según antecedentes registrales obrantes en el propio registro, su cónyuge deberá prestar el asentimiento.»"},
+    {"id":"d:T2|II|1|17","cita":"Título II, Cap. II, Secc. 1ª, art. 17º","dice":"El vendedor firma en el espacio reservado, con la firma certificada, y se consigna el porcentaje del vehículo que transfiere."},
+    {"id":"d:T2|II|1|8","cita":"Título II, Cap. II, Secc. 1ª, art. 8º","dice":"«El comprador o adquirente colocará sus datos en la Solicitud Tipo 08/08-D y firmará al dorso», con el porcentaje que adquiere."},
+    {"id":"d:T1|VII|1|1","cita":"Título I, Cap. VII, Secc. 1ª, art. 1º","dice":"Enumera los trámites con verificación obligatoria: transferencia de automotores inscriptos inicialmente desde el 1/1/2001 (inc. c) y de transporte de carga y pasajeros desde el 1/1/1995 (inc. n); y sin importar la fecha, la transferencia sin Título (inc. f) y la peticionada en el Registro de la futura radicación (inc. g)."},
+    {"id":"d:T1|VII|4|1","cita":"Título I, Cap. VII, Secc. 4ª, art. 1º","dice":"Los trámites exceptuados de verificación. El inciso m) es la regla de los 45 días corridos desde la última transferencia verificada, mientras esa verificación siga vigente."},
+    {"id":"a:I:2","cita":"Resol. MJ 412/2026, Anexo I, arancel 2 — TRANSFERENCIA","dice":"1% del valor de la tabla o del declarado en el 08, el mayor, con mínimo de 32 MRPA; incluye dos certificaciones, envío de legajo, cédula, título y las altas y bajas impositivas; y el 10% de descuento al habitualista dentro de los 90 días."},
+    {"id":"d:T2|II|1|31","cita":"Título II, Cap. II, Secc. 1ª, art. 31º","dice":"Las solicitudes de transferencia se despachan dentro del plazo máximo de veinticuatro horas, salvo observaciones."}
+  ]
+},
+{
+  "tramite": "motor",
+  "titulo": "Motor: alta, baja y cambio",
+  "resumen": "Son tres trámites distintos. El cambio de motor no existe como trámite propio: es una baja y un alta simultáneas, y pueden ir en la misma Solicitud.",
+  "variantes": [
+    {"n": "Alta de motor sola", "d": "Se incorpora un motor a un automotor que no tiene motor registrado. Si el vehículo YA tiene un motor registrado, el alta sola no se acepta: hay que pedir la baja del anterior al mismo tiempo."},
+    {"n": "Baja de motor sola", "d": "Se saca el motor y no se incorpora otro. Por destrucción, siniestro, desgaste o envejecimiento irrecuperable (inciso a), o por otras causas aunque el motor sirva (inciso b)."},
+    {"n": "Cambio de motor", "d": "Baja y alta simultáneas sobre el mismo automotor. Se tramita como las dos cosas y pueden presentarse en una misma Solicitud Tipo."},
+    {"n": "Cambio de block", "d": "Se reemplaza sólo el block de un motor inscripto. Se tramita como cambio de motor, y va con declaración jurada de firma certificada de que el resto de las piezas son las del motor anterior."}
+  ],
+  "firman": [
+    "El titular del dominio. Si hay condominio, todos juntos",
+    "O el adquirente, presentando al mismo tiempo el 08/08-D completo y en condiciones de inscribirse a su nombre. En ese caso primero se inscribe la transferencia y después el motor"
+  ],
+  "traen": [
+    "Solicitud Tipo TP o TPM (o la ST 04)",
+    "Título del Automotor",
+    "Cédula de identificación. Si el alta va junto con la baja, la cédula se presenta al retirar el trámite terminado",
+    "Si hay prenda sobre el motor: notificación al acreedor prendario del motor, firmada y certificada, o telegrama o carta documento",
+    "Si hay prenda sobre el automotor: la misma notificación, al acreedor del automotor",
+    "Si el automotor tiene una medida judicial: la orden que autorice el alta"
+  ],
+  "segun": {
+    "titulo": "Y además, según de dónde viene el motor",
+    "cols": ["De dónde viene el motor", "Qué le pedís"],
+    "filas": [
+      ["Nuevo, de fábrica terminal nacional", "Certificado de fabricación"],
+      ["Nuevo importado", "Certificado de Importación de la Dirección General de Aduanas"],
+      ["Usado, de un automotor inscripto", "Certificado de baja del Registro que intervino (el duplicado de la TP/TPM o el triplicado de la 04). Hay que constatarlo con ese Registro por correo oficial, escaneado, ANTES de inscribir el alta"],
+      ["Usado, que nunca estuvo en un dominio", "Certificado de fabricación o de importación, y el de importación hay que constatarlo salvo que sea el digital del Anexo II"],
+      ["Armado con piezas de distinto origen", "Certificado de procedencia del block, más factura de compra con firma certificada de las partes esenciales: tapa de cilindros, bomba de agua, radiador, alternador, arranque, bomba de nafta e inyección o carburador. Sale como A.F.F. y no se le pone marca de motor"],
+      ["Piezas que vienen de una baja con recuperación", "Factura del desarmadero con los números de los elementos identificatorios. Si es semiarmado, también el número grabado en el block, y la verificación tiene que dejar constancia de las dos numeraciones"],
+      ["Cambio por garantía de fabricación", "Los certificados que acrediten la garantía"],
+      ["Subastado por un organismo oficial", "Constancia o certificado de compra del organismo, firmado por la autoridad y con los datos del motor, constatado ante el emisor. Si hubo reventas, la cadena completa de facturas"]
+    ]
+  },
+  "verificacion": {
+    "lleva": "Sí, siempre",
+    "detalle": "El Registro tiene que comprobar que se cumplió la verificación física antes de inscribir el alta. Y queda en verificación, no pasa a peritaje: el alta de motor es el inciso j) del artículo de verificación obligatoria, y la conversión a peritaje por código RPA alcanza taxativamente a los incisos c), d), e), f), g) y n). El inciso j) quedó afuera."
+  },
+  "cobro": {
+    "base": "Arancel 4 — MODIFICACIONES. A: 17 MRPA, B: 5 MRPA. La Resolución no dice qué letra corresponde a qué trámite.",
+    "incluye": [
+      "Certificación de firmas o validación remota, en singular",
+      "Cédula de identificación y Título del Automotor, en el 4 A y en el 4 B"
+    ],
+    "sumar": [
+      "De la segunda certificación en adelante: arancel 8",
+      "Mora en las firmas: arancel 7 B"
+    ],
+    "sacar": [
+      "La cédula y el título: ya vienen en el arancel 4",
+      "El arancel 1 de inscripción inicial: el dominio ya está inscripto",
+      "La primera certificación: está incluida"
+    ]
+  },
+  "ojo": [
+    "Un motor dado de baja por destrucción irrecuperable —el inciso a)— no se puede volver a dar de alta en ningún automotor, nunca",
+    "Los motores dados de baja sin número salen con la leyenda MOTOR SIN NÚMERO, y eso invalida el certificado para pedir después un alta",
+    "Si el cambio es entre dos automotores del mismo titular radicados en Registros distintos, primero las dos bajas y después las altas. Si es en el mismo Registro y simultáneo, no se exigen los certificados de baja",
+    "La cédula anterior se anula y se destruye siempre, salvo la parte con el número de control, que va al legajo"
+  ],
+  "fundamento": [
+    {"id":"d:T2|III|7|1","cita":"Título II, Cap. III, Secc. 7ª, art. 1º","dice":"«La solicitud de alta de motor deberá efectuarse cuando se incorpore un motor a un automotor inscripto, provenga o no de otro automotor inscripto. También (…) cuando se reemplace el block de un motor registrado en un dominio.»"},
+    {"id":"d:T2|III|7|10","cita":"Título II, Cap. III, Secc. 7ª, art. 10º","dice":"«Se entenderá por cambio de motor a la baja y alta simultáneas de un motor con relación a un mismo automotor y, a los efectos registrales, serán tramitados como baja de motor y alta de motor, pudiendo presentarse ambas peticiones en una misma Solicitud Tipo.»"},
+    {"id":"d:T2|III|7|9","cita":"Título II, Cap. III, Secc. 7ª, art. 9º","dice":"«En el caso de vehículos que tengan un motor registrado sólo se aceptará el trámite de alta de motor si se solicita simultáneamente la baja del motor registrado hasta ese momento.»"},
+    {"id":"d:T2|III|7|3","cita":"Título II, Cap. III, Secc. 7ª, art. 3º","dice":"La lista completa de lo que se presenta para el alta, incisos a) a l): Solicitud, Título, cédula, y después el certificado que corresponda según el origen del motor —nuevo nacional, nuevo importado, usado de dominio, usado sin dominio, armado con piezas, garantía o subasta—, más las notificaciones a los acreedores prendarios y la orden judicial si hay medida."},
+    {"id":"d:T2|III|7|8","cita":"Título II, Cap. III, Secc. 7ª, art. 8º","dice":"«No se admitirá el alta de un motor que haya sido dado de baja por alguna de las causales mencionadas en el inciso a) del artículo 1º de la Sección 6ª» —destrucción total en grado tal que sea irrecuperable."},
+    {"id":"d:T2|III|7|5","cita":"Título II, Cap. III, Secc. 7ª, art. 5º","dice":"Entre los controles previos a inscribir el alta, el inciso d) exige comprobar «que se haya cumplido con la verificación física del automotor»."},
+    {"id":"d:T2|III|7|11","cita":"Título II, Cap. III, Secc. 7ª, art. 11º","dice":"Cambio de motores entre dos automotores del mismo titular: si están en Registros distintos, primero las bajas y después las altas; si es en el mismo Registro y simultáneo, no se exigen los certificados de baja."},
+    {"id":"d:T2|III|6|1","cita":"Título II, Cap. III, Secc. 6ª, art. 1º","dice":"Las dos causales de baja de motor: a) destrucción, siniestro, desgaste o envejecimiento que lo dejen irrecuperable; b) otras causas, aun cuando el motor esté en condiciones de usarse después."},
+    {"id":"d:T2|III|6|3","cita":"Título II, Cap. III, Secc. 6ª, art. 3º","dice":"Lo que se presenta para la baja: Solicitud TP/TPM o 04, Título, cédula —que en la baja simultánea con un alta se presenta al retirar—, la orden judicial si hay medida, y la conformidad o notificación del acreedor prendario."},
+    {"id":"a:I:4","cita":"Resol. MJ 412/2026, Anexo I, arancel 4 — MODIFICACIONES","dice":"Cubre alta, baja y cambio de motor, alta y baja de carrocería, cambio de tipo, cambio de chasis, asignación de número y cambio de uso. A: 17 MRPA, B: 5 MRPA. Incluye «Certificación de firmas/Validación remota» en singular, y los aranceles 4 A y 4 B también cédula y título."},
+    {"id":"d:T1|VII|1|1","cita":"Título I, Cap. VII, Secc. 1ª, art. 1º","dice":"El alta de motor o de su block es el inciso j) de los trámites con verificación obligatoria. La conversión a peritaje del último párrafo alcanza taxativamente a los incisos c), d), e), f), g) y n): el j) no está."}
+  ]
+}
+]

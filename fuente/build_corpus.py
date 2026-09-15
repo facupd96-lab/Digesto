@@ -114,15 +114,16 @@ def norm(s):
 fichas=json.load(open('/home/claude/digesto/fichas.json'))
 tramites=json.load(open('/home/claude/digesto/tramites.json'))
 reglas=json.load(open('/home/claude/digesto/reglas.json'))
+guias=json.load(open('/home/claude/digesto/guias.json'))
 ORDEN=['transferencia','oficios','motor','documentos','sucesion','denuncia','baja','firmas','verificacion','prenda','inicial','radicacion','cobranza']
 tramites=sorted(tramites,key=lambda x:ORDEN.index(x['k']) if x['k'] in ORDEN else 99)
 for _f in fichas: _f.pop('cobro_largo', None)
-bundle={'generado':'2026-09-10','arbol':arbol,'normas':normas,'aranceles':aranceles,'fichas':fichas,'tramites':tramites,'reglas':reglas,
+bundle={'generado':'2026-09-10','arbol':arbol,'normas':normas,'aranceles':aranceles,'fichas':fichas,'tramites':tramites,'reglas':reglas,'guias':guias,
         'units':units,
         'meta':{'articulos_digesto':sum(1 for u in units if u['tipo']=='digesto'),
                 'anexos_digesto':sum(1 for u in units if u['tipo']=='anexo_dig'),
                 'articulos_norma':sum(1 for u in units if u['tipo']=='norma'),
-                'correl_claves':len(C),'fichas':len(fichas),'reglas':len(reglas)}}
+                'correl_claves':len(C),'fichas':len(fichas),'reglas':len(reglas),'guias':len(guias)}}
 out=json.dumps(bundle, ensure_ascii=False, separators=(',',':'))
 open('/home/claude/digesto/corpus.json','w').write(out)
 print('unidades:',len(units),' bytes:',len(out))
